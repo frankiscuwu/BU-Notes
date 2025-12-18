@@ -1,0 +1,869 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{verbatim}
+\usepackage{txfonts}
+\usepackage{qtree}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+
+\setlength{\parindent}{0pt}
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Example,]{prosty}
+\declaretheorem[style=prosty,numberlike=theorem]{example}
+\tcolorboxenvironment{example}{colback=LightOrange}
+
+\declaretheoremstyle[name=Definition,]{prcpsty}
+\declaretheorem[style=prcpsty,numberlike=theorem]{definition}
+\tcolorboxenvironment{definition}{colback=LightGreen}
+
+\setstretch{1.2}
+\geometry{
+  textheight=9in,
+  textwidth=5.5in,
+  top=1in,
+  headheight=12pt,
+  headsep=25pt,
+  footskip=30pt
+}
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+\title{ \normalsize \textsc{}
+  \\ [2.0cm]
+  \HRule{1.5pt} \\
+  \LARGE \textbf{\uppercase{CAS MA411 Advanced Calculus}
+  \HRule{2.0pt} \\ [0.6cm] \LARGE{Fall 2025} \vspace*{10\baselineskip}}
+}
+\date{}
+\author{\textbf{Frank Yang} \\
+  Professor Glenn Stevens \\
+  CAS 411 \\
+TTh 4:30 -- 6:15}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Lecture 1 -- 9/2}
+\subsection{LinAlg Review}
+Essentially geometry.
+
+\subsubsection{$\R^2$}
+A vector that points from $(0,0)$ to $(x,y)$ has a length $||\vec{v}||=\sqrt{x^2+y^2}$. This utilizes the Pythagorean Theorem, which can be proved using a geometric proof.
+
+Now, if we have a vector that points from $(0,0)$ to $(a, b)$, and another that points from $(0,0)$ to $(-b, a)$, how do we know that the angle between these two vectors is 90º? We can use the dot product, where if $\vec{v}=(a, b)$ and $\vec{w}=(c, d)$, then $\vec{v}\cdot\vec{w}=ac+bd$. Knowing this, the dot product between the two aforementioned vectors is $-ba+ab$, or 0. This means the angle between them is 90, or there is no projection of one vector onto the other, or they are perpendicular to each other.
+
+\subsubsection{$\R^3$}
+
+Given $\vec{x}=(x_1, x_2, x_3)$ and $\vec{y}=(y_1, y_2, y_3)$, the dot product between these is $\vec{x}\cdot\vec{y}=x_1y_1+x_2y_2+x_3y_3.$
+
+\subsubsection{$\R^n$}
+
+Given $\vec{x}=(x_1, x_2, ..., x_n)$ and $\vec{y}=(y_1, y_2, ..., y_n)$ and that $||\vec{x}||=\sqrt{x_1^2+x_2^2+...+x_n^2}$, $\vec{x}\perp\vec{y}\iff||x||^2+||y||^2=||y-x||^2$. (To visualize, if $n=2$, then the length of the hypotenuse above the vectors is $||y-x||$.)
+
+Extending this dialogue on dot products, we can further identify it by using the law of cosines: $||\vec{x}||\cdot||\vec{y}||cos\theta=\vec{x}\cdot\vec{y}.$ (To visualize, draw $\vec{v}$ and $\vec{y}$ with an angle $\theta$ between them.) Prove this for homework.
+
+\section{Lecture 2 -- 9/4}
+\subsection{Basics Review}
+\begin{definition}
+  A \textbf{function} $(f, D, X)$ is defined as:
+  $f$ is a rule that maps set $D$ onto $X$, or $D\xrightarrow{f}X$.
+\end{definition}
+
+\begin{example}
+  Given $f(x)=x^2$:
+  $$f:\R\xrightarrow{}\R$$
+  is a surjective function (compared to an injective function, where everything is mapped one-to-one).
+\end{example}
+
+\begin{definition}
+  A \textbf{transformation} $T$ is a special geometric function.
+\end{definition}
+
+A transformation $T$ that is $(x,y)\mapsto x^2+y^2$ is a $T:\R^2\rightarrow\R$, or $T(x, y)=x^2+y^2.$
+
+\subsection{Linear Functions (Linear Mappings/Linear Transformations)}
+\begin{definition}
+  We say that a function $T:\R^n\to\R^m$ is linear if and only if for every $\vec{x}_1, \vec{x}_2\in\R^n$ and every $c_1, c_2\in\R$ we have $T(c_1\vec{x}_1+c_2\vec{x}_2)=c_1T(\vec{x}_1)+c_2T(\vec{x}_2)$
+\end{definition}
+
+To describe a linear function $T:\R^n\to\R^m$, we need only to know $T(\vec{e}_i)$, where $r=1, \dots, n.$
+
+\begin{example}
+  Suppose $T:\R^3\to\R^2$ is linear, and $T(\vec{e}_1) = T
+  \begin{pmatrix}1 \\ 0 \\ 0
+  \end{pmatrix} =
+  \begin{pmatrix}2 \\ 3
+  \end{pmatrix}$, $T(\vec{e}_1) = T
+  \begin{pmatrix}0 \\ 1 \\ 0
+  \end{pmatrix} =
+  \begin{pmatrix}-1 \\ 0
+  \end{pmatrix}$, $T(\vec{e}_1) = T
+  \begin{pmatrix}0 \\ 0 \\ 1
+  \end{pmatrix} =
+  \begin{pmatrix}5 \\ -1
+  \end{pmatrix}$, what is $T
+  \begin{pmatrix}
+    3\\2\\1
+  \end{pmatrix}?$
+
+  $$
+  \begin{pmatrix}
+    3\\2\\1
+  \end{pmatrix}=3
+  \begin{pmatrix}
+    1\\0\\0
+  \end{pmatrix}+2
+  \begin{pmatrix}
+    0\\1\\0
+  \end{pmatrix}+1
+  \begin{pmatrix}
+    0\\0\\1
+  \end{pmatrix}=3\vec{e}_1+2\vec{e}_2+1\vec{e}_3$$
+
+  $$T
+  \begin{pmatrix}
+    3\\2\\1
+  \end{pmatrix}=3T(\vec{e}_1)+2T(\vec{e}_2)+1T(\vec{e}_3)=3
+  \begin{pmatrix}
+    2\\3
+  \end{pmatrix}+2
+  \begin{pmatrix}
+    -1\\0
+  \end{pmatrix}+1
+  \begin{pmatrix}
+    5\\-1
+  \end{pmatrix}=$$$$
+  \begin{pmatrix}
+    6\\9
+  \end{pmatrix}+
+  \begin{pmatrix}
+    -2\\0
+  \end{pmatrix}+
+  \begin{pmatrix}
+    5\\-1
+  \end{pmatrix}=
+  \begin{pmatrix}
+    9\\8
+  \end{pmatrix}$$
+
+  Note: We can rewrite a lot of this using a matrix $A=
+  \begin{pmatrix}
+    2&-1&5\\3&0&-1
+  \end{pmatrix}$, which is the matrix associated with $T$.
+
+\end{example}
+
+Given a linear transformation $T:\R^n\to\R^m$, the $Ker(T)=\{\vec{x}\in\R^n\mid T(\vec{x}=\vec{0})\}$, which says that the kernel of transformation $T$, or the null space of transformation $T$, is the set of vectors mapped to the zero vector.
+
+\begin{example}
+  Let $T:\R^3\to\R^2$ be the linear transformation with matrix $A=
+  \begin{pmatrix}
+    2&3&4\\-1&2&5
+  \end{pmatrix}.$
+
+  We know that $T(\vec{x})=A\vec{x}$ and that $\vec{x}\in\R^3$. What is the image of $T$?
+
+  The image (or the range, or the column space) is the span (or the set of all possible linear combinations) of its column vectors.
+\end{example}
+
+\section{Lecture 3 -- 9/9}
+Given that a function $f:\R^n\to\R^m$, it could also be described as $f:D\to\R^n$ where $D\subseteq\R^n$ is a region (an open domain, which doesn't include the boundaries) in $\R^m$.
+\begin{definition}
+  A subset of $\R^n$ is called a \textbf{region} if for every $x\in D\;\exists$ a neighborhood of $x$ that is contained in $D$.
+\end{definition}
+\begin{example}
+  $D=\{(x, y)\in\R^2\mid x^2+y^2\leq r^2\}$ is the region inside a circle, inclusive. By a \textbf{neighborhood} in the previous definition, we mean that a neighborhood of $\vec{x}_0$ is an open circular disc centered at $\vec{x}$, or that $B_\epsilon(\vec{x}_0)=\{\vec{x}\in\R^2\mid|\vec{x}-\vec{x}_0|\leq \epsilon\}$. This means it's not a region/open domain. But, if we changed it to $D=\{(x, y)\in\R^2\mid x^2+y^2<r^2\}$, thus eliminating the boundary, it does become an region (every point in the region can have a neighborhood, while points on the boundary cannot have a neighborhood. This makes the former closed, while the latter is open).
+\end{example}
+\begin{definition}
+  A region $X$ is said to be \textbf{connected} if and only if for any two points $\vec{x}_1, \vec{x}_2\in X$, there is a broken line connecting $\vec{x}_1$ to $\vec{x}_2.$ (A broken line is just a line that can be drawn with multiple connected line segments.)
+\end{definition}
+\begin{definition}
+  A function $f:X\to\R^m$ where $X$ is an open region is said to be \textbf{continuous} if $\forall \; \vec{x}_0\in X, f$ is continuous at $\vec{x}_0.$
+
+  If $\forall \; \epsilon > 0, $there is a $\delta>0$ such that $f(B_\delta(\vec{x}_0))\subseteq B_\epsilon(f(\vec{x}_0)).$ This is the delta-epsilon definition of continuity.
+
+  We say $f$ is continuous at $\vec{x}_0\iff \lim_{\vec{x}\to \vec{x}_0}f(\vec{x})=f(\vec{x}_0).$ We say $\lim_{x\to x_\delta}=L\in \R$ if for every $\epsilon>0$ there is a $\delta>0$ such that $f(B_\delta(\vec{x}_0))\subseteq B_\epsilon(L).$
+\end{definition}
+
+$$\frac{\partial f}{\partial x}(\vec{x}_0)=\lim_{\Delta\to0}\frac{f(\vec{x}_0+\Delta x)-f(\vec{x}_0)}{\Delta x}$$
+
+\section{Lecture 4 – 9/11}
+Use $dz=\frac{\partial f}{\partial x}dx+\frac{\partial f}{\partial y}dy$ as a concept and develop the Jacobian Matrix.
+
+Given $y=f(x_1, x_2, ..., x_n)$, then $dy=\frac{\partial f}{\partial x_1}dx_1+\frac{\partial f}{\partial x_2}dx_2+...+\frac{\partial f}{\partial x_n}dx_n$.
+
+Now suppose we have a collection of functions, like $y_1=f_1(x_1,...,x_n),y_2=f_2(x_1,...,x_n),...,y_m=f_m(x_1,...,x_n).$
+
+If we differentiate each of those functions like we did two sentences ago, we end up with $d\vec{y}=
+\begin{pmatrix}
+  dy_1\\dy_2\\ \vdots \\dy_m
+\end{pmatrix}=
+\begin{pmatrix}
+  \frac{\partial f_1}{\partial x_1} & \dots & \frac{\partial f_1}{\partial x_n}\\
+  \frac{\partial f_2}{\partial x_1} & \dots & \frac{\partial f_2}{\partial x_n}\\
+  \vdots & \ddots & \vdots \\
+  \frac{\partial f_m}{\partial x_1} & \dots & \frac{\partial f_m}{\partial x_n}\\
+\end{pmatrix}
+\begin{pmatrix}
+  dx_1\\dx_2\\\vdots\\dx_n
+\end{pmatrix}$, or the Jacobian Matrix applied to the $d\vec{x}$ vector.
+
+\begin{example}
+  Given
+  \begin{align*}
+    y_1&=x_1^2+x_2^2-x_3^2\\
+    y_2&=x_1^2-x_2^2+x_3^2\\
+    y_3&=-x_1^2+x_2^2+x_3^2
+  \end{align*}
+  Then the Jacobian matrix is
+  $$J=\frac{\partial f_i}{\partial x_j}=
+  \begin{pmatrix}
+    \frac{\partial y_1}{\partial x_1} & \frac{\partial y_1}{\partial x_2} & \frac{\partial y_1}{\partial x_3}\\
+    \frac{\partial y_2}{\partial x_1} & \frac{\partial y_2}{\partial x_2} & \frac{\partial y_2}{\partial x_3}\\
+    \frac{\partial y_3}{\partial x_1} & \frac{\partial y_3}{\partial x_2} & \frac{\partial y_3}{\partial x_3}\\
+  \end{pmatrix}=
+  \begin{pmatrix}
+    2x_1 & 2x_2 & -2x_3\\
+    2x_1 & -2x_2 & 2x_3\\
+    -2x_1 & 2x_2 & 2x_3
+  \end{pmatrix}.$$
+  So $d\vec{y}=J
+  \begin{pmatrix}
+    dx_1\\dx_2\\dx_3
+  \end{pmatrix}$, at which it becomes a matter of algebra.
+\end{example}
+
+\section{Lecture 5 -- 9/16}
+
+\begin{example}
+  Given $z=f(x,y)$, $dz=\frac{\partial f}{\partial x}dx+\frac{\partial f}{\partial y}dy$. Now suppose $x$ and $y$ are parameterized: $x=x(t), y=y(t)$. Then $z=z(t)=f(x(t),y(t))$, thus creating $\frac{dz}{dt}=\frac{\partial f}{\partial x}\frac{dx}{dt}+\frac{\partial f}{\partial y}\frac{dy}{dt}$. This is the \textbf{chain rule}.
+\end{example}
+
+The principle of the chain rule can always extend itself, like if $x=x(u_1,u_2)$ and $y=y(u_3,u_4)$ and $z=z(x,y)$, then $\frac{\partial z}{\partial u_1}=\frac{\partial f}{\partial x}\frac{\partial x}{\partial u_1}+\frac{\partial f}{\partial y}\frac{\partial y}{\partial u_1}$ aka $\frac{\partial z}{\partial u_1}=
+\begin{pmatrix}
+  \frac{\partial f}{\partial x} & \frac{\partial f}{\partial y}
+\end{pmatrix}
+\begin{pmatrix}
+  \frac{\partial x}{\partial u_1}\\\frac{\partial y}{\partial u_1}
+\end{pmatrix}$ and on.
+
+\section{Lecture 6 -- 9/18}
+Given $f:\R^n\to\R^m$ as a differentiable function, we obtain two functions: $f(\vec{x}_0)=
+\begin{pmatrix}
+  y_1(\vec{x}_0)\\
+  \vdots\\
+  y_m(\vec{x}_0)
+\end{pmatrix}=
+\begin{pmatrix}
+  y_1\\\vdots\\y_m
+\end{pmatrix}$, which is just the application of the function onto a vector, as well as $f(\vec{x}_0+d\vec{x})\sim f(\vec{x}_0)+D_f(x_0)d\vec{x}$, which uses the Jacobian.
+
+\begin{example}
+  Given $f:\R^3\to\R^3$, $
+  \begin{pmatrix}
+    x_1\\x_2\\x_3
+  \end{pmatrix}\to
+  \begin{pmatrix}
+    y_1\\y_2\\y_3
+  \end{pmatrix}$ where
+  \begin{align*}
+    y_1&=x_1^2+x_2^2-x_3^2\\
+    y_2&=x_1^2-x_2^2+x_3^2\\
+    y_3&=-x_1^2+x_2^2+x_3^2
+  \end{align*}.
+
+  Then, $D_f$ is the Jacobian matrix, which is $\R^3\to Matrix_{3x3}(\R)$, and the result is $D_f
+  \begin{pmatrix}
+    x_1\\x_2\\x_3
+  \end{pmatrix}=
+  \begin{pmatrix}
+    2x_1 & 2x_2 & -2x_3\\
+    2x_1 & -2x_2 & 2x_3\\
+    -2x_1 & 2x_2 & 2x_3
+  \end{pmatrix}$.
+
+  With just function application, let's use $\vec{x}_0=
+  \begin{pmatrix}
+    2\\1\\1
+  \end{pmatrix}.$ We get $f
+  \begin{pmatrix}
+    2\\1\\1
+  \end{pmatrix}=
+  \begin{pmatrix}
+    4\\4\\-2
+  \end{pmatrix}.$
+
+  Applying the Jacobian gives $D_f(\vec{x}_0)=D_f
+  \begin{pmatrix}
+    2\\1\\2
+  \end{pmatrix}=
+  \begin{pmatrix}
+    4&2&-2\\4&-2&2\\-4&2&2
+  \end{pmatrix}$. Plugging this into the equation for differentiation, we get $f(
+    \begin{pmatrix}
+      2\\1\\1
+  \end{pmatrix}+d\vec{x})\sim f
+  \begin{pmatrix}
+    2\\1\\1
+  \end{pmatrix}+D_f
+  \begin{pmatrix}
+    2\\1\\1
+  \end{pmatrix}d\vec{x}$, or $f(
+    \begin{pmatrix}
+      2\\1\\1
+  \end{pmatrix}+d\vec{x})\sim
+  \begin{pmatrix}
+    4\\4\\-2
+  \end{pmatrix}+
+  \begin{pmatrix}
+    4&2&-2\\4&-2&2\\-4&2&2
+  \end{pmatrix}d\vec{x}$. We can now use this to calculate any small change away from $
+  \begin{pmatrix}
+    2\\1\\1
+  \end{pmatrix}.$
+\end{example}
+Using the above concept, imagine a cube centered at $\vec{x}_0$. Applying a Jacobian $D_f$ onto the cube maps it into a region that seems like a parallelepiped that contains $f(\vec{x}_0).$ The volume of this new parallelepiped can be calculated using $|\det(\vec{v})|$, where $\vec{v}$ are the transformed vectors on the edges from one corner of the original cube (aka the vectors that span the parallelepiped).
+
+\section{Lecture 7 -- 9/23}
+Given $f:\R^n\to\R^m$, the graph of $f$ is $\{(\vec{x},f(\vec{x}))\mid\vec{x}\in\R^n\}$. With this, $\vec{x}$ could be a vector of functions, such that the resulting vector $\vec{y}=f(\vec{x})=f
+\begin{pmatrix}
+  x_1\\\vdots\\x_n
+\end{pmatrix}=
+\begin{pmatrix}
+  y_1(\vec{x})\\\vdots\\y_m(\vec{x})
+\end{pmatrix}$, where $D_f(\vec{x})=\vec{y}_{\vec{x}}=
+\begin{pmatrix}
+  \frac{\partial y_1}{\partial x_1} & \dots & \frac{\partial y_1}{\partial x_n}\\
+  \vdots&\ddots&\vdots\\
+  \frac{\partial y_m}{\partial x_1} & \dots & \frac{\partial y_m}{\partial x_n}\\
+\end{pmatrix}$.
+
+This is significant because of $f(\vec{x})+df(\vec{x},d\vec{x})=f(\vec{x})+\vec{y}_{\vec{x}}d\vec{x}.$ This allows us to come to the key point that $(\vec{x},f(\vec{x})+df(\vec{x},d\vec{x}))=(\vec{x},f(\vec{x})+\vec{y}_{\vec{x}}d\vec{x})$.
+
+\begin{example}
+  Given
+  \begin{align*}
+    y_1&=u_1u_2-u_1u_3\\
+    y_2&=u_1u_3+u_2^2\\
+    u_1&=x_1\cos{x_2}+(x_1-x_2)^2\\
+    u_2&=x_1\sin{x_2}+x_1x_2\\
+    u_3&=x_1^2-x_1x_2+x_2^2
+  \end{align*} and knowing that \[\vec{y}_{\vec{u}}=
+    \begin{pmatrix}
+      \frac{\partial y_1}{\partial u_1} & \frac{\partial y_1}{\partial u_2} & \frac{\partial y_1}{\partial u_3}\\
+      \frac{\partial y_2}{\partial u_1} & \frac{\partial y_2}{\partial u_2} & \frac{\partial y_2}{\partial u_3}
+  \end{pmatrix}\]
+  we can come to the matrix $\vec{y}_{\vec{u}}=
+  \begin{pmatrix}
+    u_2-u_3&u_1&-u_1\\u_3&2u_2&u_1
+  \end{pmatrix}$ with and with the same process for the rest of the functions, we can get the matrix $\vec{u}_{\vec{x}}=
+  \begin{pmatrix}
+    \cos{x_2}+2(x_1-x_2)&-\sin{x_2}-2(x_1-x_2)\\
+    \sin{x_2}+x_2&x_1\cos{x_2}+x_1\\
+    2x_1-x_2&-x_1+2x_2
+  \end{pmatrix}.$
+
+  Take $\vec{x}=
+  \begin{pmatrix}
+    x_1\\x_2
+  \end{pmatrix}=
+  \begin{pmatrix}
+    1\\0
+  \end{pmatrix}$, then $\vec{u}=
+  \begin{pmatrix}
+    u_1\\u_2\\u_3
+  \end{pmatrix}=
+  \begin{pmatrix}
+    2\\0\\1
+  \end{pmatrix}$.
+
+  So, for $\vec{x}=
+  \begin{pmatrix}
+    1\\0
+  \end{pmatrix}$, $\vec{y}_{\vec{u}}=
+  \begin{pmatrix}
+    -1&2&-2\\1&0&2
+  \end{pmatrix},$ and $\vec{u}_{\vec{x}}=
+  \begin{pmatrix}
+    3&-2\\0&2\\2&-1
+  \end{pmatrix}.$
+
+  Thus, finally, that means $\vec{y}_{\vec{x}}=
+  \begin{pmatrix}
+    -7&8\\7&-4
+  \end{pmatrix}$, the product of $\vec{y}_{\vec{u}}$ and $\vec{u}_{\vec{x}}$.
+\end{example}
+\begin{definition}
+  Given $f:\R^n\to\R^m$, function $f$ is \textbf{affine} if $f(\vec{x})=A\vec{x}+\vec{b}$, where $\vec{b}\in\R^m.$
+\end{definition}
+
+\section{Lecture 8 – 9/25}
+Given $\{
+  \begin{pmatrix}
+    x\\y\\z
+  \end{pmatrix}\mid
+  \begin{cases}
+    2x^2+y^2-z^2=3\\
+    xyz+2x^2z+3xz^2=1
+  \end{cases}
+\}$, this says $z(x,y)$ is a function where $2x+y^2-z(x,y)^2=3$ and $xy\cdot z(x,y)+2x^2\cdot z(x,y)+3x(z(x,y)^2)=1.$
+
+\section{Lecture 9 -- 9/30}
+Suppose we have to functions $2x+y-3z-2u=0$ and $x+2y+z+u=0$. If we're asked to solve for $x, u$ in terms of $y, z$, that's $(\frac{\partial x}{\partial y})_z$ and $(\frac{\partial u}{\partial z})_y$. Take the differential of the first equation to get $2dx+dy-3dz-2du=0$ Do the same for the second equation. Then rewrite both in the terms of the question:
+\begin{align*}
+  2dx-2du&=-dy+3dz\\
+  dx+du&=-2dy-dz.
+\end{align*}
+This can be rewritten as a matrix equation such that $
+\begin{pmatrix}
+  2&-2\\1&1
+\end{pmatrix}
+\begin{pmatrix}
+  dx\\du
+\end{pmatrix}=
+\begin{pmatrix}
+  -1&3\\-2&-1
+\end{pmatrix}
+\begin{pmatrix}
+  dy\\dz
+\end{pmatrix}.$
+To solve for the question, $
+\begin{pmatrix}
+  dx\\du
+\end{pmatrix}=
+\begin{pmatrix}
+  2&-2\\1&1
+\end{pmatrix}^{-1}
+\begin{pmatrix}
+  -1&3\\-2&-1
+\end{pmatrix}
+\begin{pmatrix}
+  dy\\dz
+\end{pmatrix}=\frac{1}{4}
+\begin{pmatrix}
+  1&2\\-1&2
+\end{pmatrix}
+\begin{pmatrix}
+  -1&3\\-2&-1
+\end{pmatrix}
+\begin{pmatrix}
+  dy\\dz
+\end{pmatrix}.$
+This gives us the final equations
+\begin{align*}
+  dx=-\frac{5}{4}dy+\frac{1}{4}dz\\
+  du=-\frac{3}{4}dy-\frac{5}{4}dz
+\end{align*}
+
+\begin{example}
+  Given $zx^2+y^2+z^3-1=0$ we can solve this equations for $z$ in terms of $x+y$.
+  Let $z=z(x, y)$. Then $dz=\frac{\partial z}{\partial x}dx+\frac{\partial z}{\partial y}dy$.
+
+  $2xz\cdot dx+x^2\cdot dz+2y\cdot dy+3z^2 \cdot dz=0$. We can solve for $dz=-\frac{2xz}{x^2+3z^2}dx-\frac{2y}{x^2+3z^2}dy$. That means $\frac{\partial z}{\partial x}=-\frac{2xz}{x^2+3z^2}$ and $\frac{\partial z}{\partial y}=-\frac{2y}{x^2+3z^2}.$
+
+  This is different from the above example, because the last one had the partials as literal numbers, while this has functions.
+
+\end{example}
+
+\section{Discussion 10/1}
+\begin{theorem}
+  Consider the simultaneous equations $F(\vec{x},\vec{u})\in\vec{0}, \vec{x}=\R^n,\vec{u}\in\R^m,F:\R^{n+m}\to\R^n.$ Let $(\vec{x}_0,\vec{u}_0)$ be a point at which $F(\vec{x}_0,\vec{u}_0)=\vec{0}, det(F_{\vec{x}}(\vec{x}_0,\vec{u}_0))\neq0$. Suppose $F$ has continuous partial derivatives in a neighborhood of $(\vec{x}_0,\vec{u}_0)$. Then there exists a neighborhood $D$ of $\vec{u}_0$ and a unique continuously differentiable function $f:D\to\R^n$ such that $\vec{x}=f(\vec{u})$ (or $F(f(\vec{u},\vec{u})=0$)).
+\end{theorem}
+
+\section{Lecture 10 -- 10/16}
+Given a space $X$, where $X\subseteq\R^n$, a path in $X$ is a function $\pi:[a,b]\to X\xrightarrow{x_i}\R$. For $t\in[a,b],\pi(t)\in X$, or $\pi(t)=(x_1(t),x_2(t),\dots,x_n(t))\in X$. Thus $\pi'(t)=(x_1'(t),x_2'(t),\dots,x_n'(t))\in X$.
+
+Let gradient $\nabla F\mid_{(x_0,y_0)}=(\frac{\partial F}{\partial x}\mid_{(x_0,y_0)},\frac{\partial F}{\partial y}\mid_{(x_0,y_0)})$.
+
+Given function $F(x,y)$ and space above $(x(t),y(t),F(x(t),y(t)))$, with $x_0=x(0),y_0=y(0)$, $\frac{d}{dt}F(x(t),y(t))\mid_{(x_0,y_0)}=\frac{\partial F}{\partial x}(x_0,y_0)\cdot x'(0)+\frac{\partial F}{\partial y}\cdot y'(0)=\nabla f\mid_{(x_0,y_0)}\cdot(x'(0),y'(0)).$
+
+\begin{definition}
+  The directional derivative of $F$ in the direction $\frac{x'(0)}{||x'(0)||}$ is $\nabla_{\vec{x}'(0)}F=\nabla F\cdot \frac{\vec{x}'(0)}{||\vec{x}'(0)||}$.
+\end{definition}
+
+\begin{example}
+  Let $F(x,y,z)=2x^2-y^2+z^2$ and $(x_0,y_0,z_0)=(1,2,3)$ and $\vec{u}=(2,3,-3).$ Find the directional derivative of $F$ in the direction of $\vec{u}$ starting from the point $(x_0,y_0,z_0).$
+
+  Then $\nabla_{\vec{u}}F\mid_{(1,2,3)}=(\frac{\partial F}{\partial x}\mid_{(1,2,3)},\frac{\partial F}{\partial y}\mid_{(1,2,3)},\frac{\partial F}{\partial z}\mid_{(1,2,3)})(\frac{1}{\sqrt{22}}\cdot(2,3,-3))$.
+
+  Solving this out gives $\nabla F=(4x,-2y,2z)\mid_{(1,2,3)}=(4,-4,-6).$ Plug this into our expanded equation above gives $(4,-4,6)\cdot(\frac{1}{\sqrt{22}}\cdot(2,3,-3))=\frac{-22}{\sqrt{22}}$.
+
+\end{example}
+
+\section{Lecture 11 -- 10/21}
+\begin{definition}
+  A \textbf{scalar field} is a function $f:\R^n\to\R$, or a function that results in a single output value.
+\end{definition}
+
+We can make \textbf{level curves} to identify how the result changes as a function of the inputs.
+\begin{example}
+  Given $f:\R^2\to\R$ where $f(x,y)=xy$, the level curve is
+  \includegraphics[width=100mm]{1.png}
+\end{example}
+
+Suppose $f:\R^2\to\R$. We can form the \textbf{gradient field} associated to $f$ (assuming the function is a smooth, continuous function). We write it using $\nabla f$, which (for this $f$) is calculated using $\frac{\partial f}{\partial x}\vec{i}+\frac{\partial f}{\partial y}\vec{j}$. Notably, this means we took $f$, a \textit{scalar field}, and turned it into a \textbf{vector field}.
+
+\begin{definition}
+  \textbf{Vector fields} have multiple output values, such as $\vec{v}:\R^2\to\R^2$. In this instance, $\vec{v}(x,y)=v_x(x,y)\vec{i}+v_y(x,y)$, where the subscript denotes the component in that dimension and NOT the derivative.
+\end{definition}
+
+Gradient vectors will always point perpendicular to any level set!
+
+Because vector fields are a function that map multi-dimensions into multi-dimensions, we can also identify the Jacobian of a vector field: $J(\vec{v})=
+\begin{pmatrix}
+  \frac{\partial v_x}{\partial x} & \frac{\partial v_x}{\partial y}\\
+  \frac{\partial v_y}{\partial x} & \frac{\partial v_y}{\partial y}
+\end{pmatrix}$.
+
+\begin{definition}
+  The \textbf{divergence} of a vector field is $Div(\vec{v}):=\frac{\partial v_x}{\partial x}+\frac{\partial v_y}{\partial y}$. This is found from the \textit{trace} of the Jacobian matrix of the vector field (found above). The trace is the diagonal of the matrix.
+\end{definition}
+
+Physics relation: let the density of a fluid at $(x,y)$ at time $t$ be equal to $\rho(t)=(x,y)$. Then $Div(\vec{v})\mid_{(x,y)}=-\rho'(t).$
+
+\begin{definition}
+  The \textbf{curl} of a vector field $\vec{v}$ in $\R^3$ is $curl(\vec{v})=(\frac{\partial v_z}{\partial y}-\frac{\partial v_y}{\partial z})\vec{i}-(\frac{\partial v_z}{\partial x}-\frac{\partial v_x}{\partial z})\vec{j}+
+  (\frac{\partial v_y}{\partial x}-\frac{\partial v_x}{\partial y})\vec{k}$. This is the expanded form of $curl(\vec{v})=\nabla \times\vec{v}=
+  \begin{vmatrix}
+    \vec{i}&\vec{j}&\vec{k}\\ \frac{\partial}{\partial x}&\frac{\partial}{\partial y}&\frac{\partial}{\partial z}\\v_x&v_y&v_z
+  \end{vmatrix}.$
+\end{definition}
+
+\section{Lecture 12 -- 10/23}
+
+Some observations:
+\begin{enumerate}
+  \item The curl of a gradient of a function, $curl(\nabla f)=0$.
+  \item $div\cdot curl(\vec{v})=0$
+\end{enumerate}
+
+\subsection{Integration}
+
+Given a function $f$ defined on region $[a,b]$ and that maps to $\R$, the integration over this region is $\int_a^b f(x)\,dx$.
+
+Now, let's split the region into partitions, such that $a=x_0<x_1<x_2<\dots<x_{n-1}<x_n=b$. The region from $a=x_0$ to $x_1$ is labeled as $x_1^*$, and we can do the same for each partition. If we define $\Delta x_i=x_i-x_{i-1}$ for $i=1,\dots,n$, then $\int_a^b f(x)\,dx\sim \sum_{i=0}^n f(x_i^*)\Delta x_i$.
+
+\begin{definition}
+  The \textbf{mesh} is defined as $h=max(\Delta x_i)$, for $i=1,\dots,n.$
+\end{definition}
+
+Given $I\in\R$, we say $\int_a^b f(x)\,dx=I\iff\forall\;\epsilon>0,\exists\;\delta>0$ such that for any partition $a=x_0,x_1,\dots,x_n=b$, if the mesh $h<\delta$, then we have $|\sum_{i=1}^n f(x_i^*)\Delta x_i-I|<\epsilon.$
+
+\subsection{Double Integration}
+$\iint_R f(x, y) \,dx\,dy$, $R\subseteq \R$, $f:\R^2\to\R.$
+
+The mesh in two dimensions extends into... well, two dimensions, forming a grid over $R$. In two dimensions, $h=$ minimum side length of the squares in the mesh. $\iint_R f\,dx\,dy=\lim_{h\to0}\sum_{i=1}^N f(x_i^*)\Delta x_i$.
+
+\subsection{Average value of $f$ on $R$}
+\begin{definition}
+  Defined as \[\frac{1}{Area(R)}\iint_R f(x,y)\,dx\,dy.\]
+\end{definition}
+
+\subsection{Mean Value Theorem}
+\begin{definition}
+  If $f:R\to\R$ is continuous, then $\exists\;(x_0,y_0)\in R$ such that $f(x_0,y_0)=\frac{1}{Area(R)}\iint_R f\,dx\,dy.$
+\end{definition}
+
+\section{Lecture 13 -- 10/28}
+\subsection{Triple Integral}
+$\iiint_R f(x,y,z)\,dx\,dy\,dz$.
+\begin{example}
+  Say we're given a region $R:\{0\leq x\leq1,0\leq y\leq x^2,0\leq z\leq x+y\}$. Given the function $f(x,y,z)=2x-y-z$, we can find the volume in this region of this function with
+  \begin{align*}
+    &=\int_0^1\int_0^{x^2}\int_0^{x+y}(2x-y-z)\,dz\,dy\,dx\\
+    &=\int_0^1\int_0^{x^2}(2xz-yz-\frac{z^2}{2})\mid^{x+y}_0\,dy\,dx\\
+    &=\int_0^1\int_0^{x^2}(2x(x+y)-y(x+y)-\frac{(x+y)^2}{2})\,dy\,dx\\
+    &=\int_0^1\int_0^{x^2}(\frac{3}{2}x^2-\frac{3}{2}y^2)\,dy\,dx\\
+    &=\frac{3}{2}\int_0^1(x^2y-\frac{y^3}{3})\mid_y^{x^2}\,dx\\
+    &=\frac{3}{2}\int_0^1(x^4-\frac{x^6}{3})\,dx\\
+    &=\frac{3}{2}(\frac{x^5}{5}-\frac{x^7}{21})\mid^1_0\\
+    &=\frac{8}{35}.
+  \end{align*}
+\end{example}
+\subsection{Change of Variables}
+\begin{theorem}
+  The \textbf{Fundamental Theorem of Calculus} says that if $F$ is an antiderivative of $f$, i.e. $F'(x)=f(x)$, then $\int_{x_1}^{x_2}f(x)\,dx=F(x)\mid_{x_1}^{x_2}=F(x_2)-F(x_1).$
+\end{theorem}
+\begin{theorem}
+  The \textbf{Chain Rule} tells us that given $F(x(u))$, we can find $\frac{d}{du}(F(x(u)))=f(x(u))\cdot x'(u)$, where $F'=f$.
+\end{theorem}
+\subsubsection{One variable case}
+$\int_{x_1}^{x_2}f(x)\,dx$ can have it's variables changed into $\int_{u_1}^{u_2}f(x(u))\,\frac{dx}{du}du$.
+\subsubsection{Two variable case}
+\[\iint_{R_{xy}}f(x,y)\,dx\,dy=\iint_{R_{uv}}f(x(u,v),y(u,v))\,|\frac{\partial(x,y)}{\partial(u,v)}|\,du\,dv\]
+\begin{example}
+  Given a parallelogram in $R_{xy}$ with corners $(0,1),(2,2),(3,1),(1,0)$, and functions $u=x+y$ and $v=x-2y$, we find that this parallelogram gets mapped into corners $(1,-2),(4,-2),(4,1),(1,1)$ in $R_{uv}.$
+
+  We do this because if we wanted the volume of the function $(x+y)^3$ in the region of $R_{xy}$, setting up the bounds of integration would be tedious in this strange, slanted parallelogram. So changing it into $\int_{R_{uv}}u^3\cdot|\frac{\partial(x,y)}{\partial(u,v)}|\,du\,dv$ is a lot easier, since $R_{uv}$ is a square.
+
+  Continuing this example, use the fact that the determinant $\frac{\partial(u,v)}{\partial(x,y)}$ is equal to $\frac{1}{\frac{\partial(x,y)}{\partial(u,v)}}$. So we take the derivatives of $u$ and $v$ for a determinant of $-3$. Take the inverse for $\frac{-1}{3}$. Thus,
+  \begin{align*}
+    &=\int_{R_{xy}}(x+y)^3\,dx\,dy\\
+    &=\int_{R_{uv}}u^3|\frac{\partial(x,y)}{\partial(u,v)}|\,du\,dv\\
+    &=\frac{-1}{3}\int_{-2}^1\int_1^4u^3\,du\,dv\\
+    &=\frac{-1}{3}\int_{-2}^1\frac{u^4}{4}\vert_1^4\,dv\\
+    &=\frac{-1}{3}\int_{-2}^1\frac{255}{4}\,dv\\
+    &=\frac{-255}{4}.
+  \end{align*}
+  We got a negative answer because the original parallelogram was in the counter-clockwise direction, while the new mapping into the $u,v$ plane made it clockwise.
+\end{example}
+
+\section{Lecture 14 -- 10/30}
+\subsection{Paths}
+Suppose path $\pi(t)=(x(t),y(t)).$ The length of $\pi:=\int_a^b\sqrt{x'(t)^2+y'(t)^2}\,dt=\int_a^b\sqrt{(dx)^2+(dy)^2}.$
+
+\begin{example}
+  Find the circumference of a circle of radius $\alpha>0$. Let $\Pi:[0,2\pi]\to\R^2,\Pi(t)=\alpha\cdot\cos(t),\alpha\cdot\sin(t).$
+  The circumference can then be calculated as the length of the path, $l=\int_0^{2\pi}\sqrt{(\alpha^2\sin^2(t)+\alpha^2\cos^2(t))}\,dt=\int_0^{2\pi}\alpha\sqrt{\sin^2(t)+\cos^2(t)}\,dt=\alpha\int_0^{2\pi}1\,dt=2\pi\alpha.$
+\end{example}
+
+This works in more than 2 dimensions as well. In $\R^3$, the length of $\pi$ is $\int_a^b\sqrt{(x'(t))^2+(y'(t))^2+(z'(t))^2}\,dt.$
+
+Let $f:\R\to\R$ be a differentiable function written as $y=f(x).$ This means that the path \textit{is} the graph of $f$. Then the length of the graph $\int_a^b\sqrt{(x'(t))^2+(y'(t))^2}\,dt=\int_a^b\sqrt{1+f'(t)^2}\,dt$, since $x(t)=x.$
+
+\subsection{Surface Area}
+Find the surface area of the graph of $f:\R^2\to\R$, where $z=f(x,y)$ is defined on a region $R\subseteq\R^2$. The surface area is $\iint_R\sqrt{1+(\frac{\partial f}{\partial x})^2+(\frac{\partial f}{\partial y})^2}\,dx\,dy.$
+
+\begin{example}
+  Find the surface area of a sphere of radius $\alpha$. The upper hemisphere is the graph of the function $z=f(x,y)=\sqrt{\alpha^2-x^2-y^2}$ on the disk $D:=\{(x,y)\mid x^2+y^2\leq\alpha^2\}.$
+
+  We find the surface area with the equation
+  \[S=2\iint_D\sqrt{1+(-x(\alpha^2-x^2-y^2)^{-\frac{1}{2}})^2+(-y(\alpha^2-x^2-y^2)^{-\frac{1}{2}})^2}\,dx\,dy.\] We have a coefficient of $2$ because $z$ only gives us the top hemisphere, while we want the whole sphere's. We simplify this into
+  \[S=2\iint_D\sqrt{\frac{\alpha^2}{\alpha^2-x^2-y^2}}\,dx\,dy.\]
+
+  In order to identify the region, we need to parameterize the disk $D$ into polar coordinated. Thus $D=R_{r\theta}=\{(r\cos\theta,r\sin\theta)\mid0\leq r\leq\alpha,0\leq\theta\leq2\pi\}.$ Doing so transforms our equation into
+  \[S=2\iint_{R_{r\theta}}\sqrt{\frac{\alpha^2}{\alpha^2-(r\cos\theta)^2-(r\sin\theta)^2}}|\frac{\partial(x,y)}{\partial(r,\theta)}|\,dr\,d\theta.\]
+  Identify our region and simplify:
+  \begin{align*}
+    S&=2\int_0^{2\pi}\int_0^\alpha\sqrt{\frac{\alpha^2}{\alpha^2-r^2}}\,r\,dr\,d\theta\\
+    &=2\alpha\int_0^{2\pi}\int_0^\alpha\sqrt{\frac{1}{\alpha^2-r^2}}\,r\,dr\,d\theta\\
+    &=2\alpha\int_0^{2\pi}-\sqrt{\alpha^2-r^2}\mid_0^\alpha\,d\theta\\
+    &=2\alpha\int_0^{2\pi}\alpha\,d\theta\\
+    &=2\alpha\cdot2\pi\cdot\alpha\\
+    &=4\pi\alpha^2.
+  \end{align*}
+\end{example}
+\newpage
+
+\section{Lecture 15 – 11/6}
+A path could also be the sum of two functions $P(x,y)$ and $Q(x,y)$. Then, it would be $\pi(t)=P(x,y)\,dx+Q(x,y)\,dy$. If $P(x,y)=y^2$ and $Q(x,y)=x^2$, we can find the line integral of a differential form using $\int_C y^2\,dx+x^2\,dy$. If $C$ were over the points $(0,-1)$ to $(0,1)$, with parametrized $(x(t),y(t))=(\cos{t},\sin{t})$ on the range $t\in[-\frac{\pi}{2},\frac{\pi}{2}]$, then we'd get $\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}-\sin^2t\sin{t}\,dt+\int_{-\frac{\pi}{2}}^{\frac{\pi}{2}}\cos^2 t\cos{t}\,dt$. This simplifies into $\frac{4}{3}.$
+
+Different paths between the same endpoints could yield different results. For example, if I kept the same endpoints from above, but had $(x(t),y(t))=(0,t)$, it would be a straight line from $(0,-1)$ to $(0,1)$, with a line integral of 0.
+
+\begin{example}
+  Given the function $y=(x-1)^2$, find $\int_C(x^2-y^2)\,dx$ from $(1,0)$ to $(2,1)$.
+
+  First, we find the parametrized equations. We would do on $t\in[0,1]$ for $(x(t),y(t))=(1+t,t^2).$ This yields
+  \[\int_C(x^2-y^2)\,dx=\int_0^1((1+t)^2-t^4)x'(t)\,dt=\frac{32}{15}.\]
+
+\end{example}
+
+You may run into questions that require both $dx$ and $dy$. This will be represented as $\int_C f(x,y)\,ds:=\int f(x(t),y(t))\sqrt{(x'(t))^2+(y'(t))^2}\,dt$.
+
+\subsection{Closed curves}
+Closed curves with a distinction in the direction of the curve is notated as $\ointctrclockwise\limits_{C} P\,dx+Q\,dy$ for a positive direction and $\ointclockwise\limits_{C} P\,dx+Q\,dy$ for negative.
+\begin{example}
+  For $\ointctrclockwise_C y^2\,dx+y\,dy$, with endpoints $(1,1),(-1,1),(-1,-1),(1,-1)$, we can add up each individual line integral to get a total of 0.
+\end{example}
+
+\section{Lecture 16 – 11/11}
+\begin{theorem}
+  \textbf{Green's Theorem: }If we have a region in $\R^2$ and if $P(x,y), Q(x,y)$ are of type $C^1$ (continuous and at least once differentiable), then
+  \[\ointctrclockwise_C P(x,y)\,dx+Q(x,y)\,dx=\iint_R(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y})\,dx\,dy.\]
+\end{theorem}
+\begin{example}
+  Let $C$ be the curve $x^2+y^2=1$ over the region $R:=\{(x,y)\mid x^2+y^2\leq 1\}$. Use Green's/Stokes's Theorem to evaluate the line integral in the vector field: $\ointctrclockwise_C(4xy^3\,dx+6x^2y\,dy)$.
+
+We can parameterize this region with $(x(t),y(t))=(\cos{t},\sin{t})), t\in[0,2\pi].$ This gives us a solvable equation of
+\begin{align*}
+  &=\int_0^{2\pi}(4\cos{t}\sin^3t(-\sin{t})\,dt+6\cos^2t\sin{t}\cos{t}\,dt)\\
+  &=\int_0^{2\pi}(-4\cos{t}\sin^4t+6\cos^3t\sin{t})\,dt.
+\end{align*}
+But if we instead used Green's Theorem to find the solution, then we know that $\frac{\partial P}{\partial x}=12xy^2$ and $\frac{\partial Q}{\partial y}=12xy$, so the integrand is $12xy(1 - y)$, which is odd in $x$ over the symmetric region $R$. Therefore, the integral (and thus the line integral) is $0$.
+\end{example}
+
+\begin{example}
+Given curve $C:x^2+4y^2=4$, find $\ointctrclockwise_C (2x-y)\,dx+(x+3y)\,dy.$
+
+Using Green's,
+\begin{align*}
+  &=\iint_R(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y})\,dx\,dy\\
+  &=\iint_R(1-(-1))\,dx\,dy\\
+  &=2\cdot\text{Area(R)}
+\end{align*}
+Since $C$ creates an $R$ that's an ellipse, we know that the area is $2ab$ where $a$ and $b$ are the lengths of the axes, giving us a final answer of $=2\cdot2\pi=4\pi.$
+\end{example}
+
+\begin{example}
+Given $C:x^2+y^2=1$, find $\ointctrclockwise_C \frac{y}{x^2+y^2}\,dx+\frac{x}{x^2+y^2}\,dy.$
+If we tried using Green's, it would suck. That's because it's not $C^1.$ Therefore, Green's would not work.
+\end{example}
+
+\begin{example}
+Given $C$ as the boundary of the square with points $(1, 1), (-1, 1), (-1, -1), (1, -1)$, find $\ointctrclockwise_C(x^2+2y^2)\,dx$.
+
+Using Green's:
+\begin{align*}
+  &=\iint_R-4y\,dx\,dy\\
+  &=-4\iint_Ry\,dx\,dy\\
+  &=-4y\text{   (there's supposed to be a bar over the y, representing the "moment")}\\
+  &=0.
+\end{align*}
+\end{example}
+
+\section{Lecture 17 -- 11/13}
+Given vector field $\vec{F}=P\vec{i}+Q\vec{j}$ in $\R^2$, we can define the \textbf{circulation} of $\vec{F}$ along a closed curve $C$ as $\ointctrclockwise_C \vec{F}\cdot d\vec{r} = \iint_R curl(\vec{F})\,dA$, where $curl(\vec{F}) := \frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}$. This is Green's Theorem.
+
+Then we did a proof of Green's but like I'm not writing that xd.
+
+\section{Lecture 18 -- 12/2}
+\subsection{Fourier Series}
+Given a range $[-\pi,\pi]$, we can define a function $f:[-\pi,\pi]\to\R$ as $\mathcal{C}([-\pi,\pi])=\{f:[-\pi,\pi]\to\R \mid f \text{ is piecewise "smooth"}\}$.
+
+In finite dimensional spaces, we find the inner product of two vectors using $\langle \vec{u},\vec{v}\rangle=\sum_{i=1}^n u_iv_i$.
+
+In infinite dimensional spaces, we can define the inner product of two functions $f,g\in\mathcal{C}([-\pi,\pi])$ as $\langle f,g\rangle=\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)g(x)\,dx$.
+
+Thus, we can find $||f||^2=\langle f,f\rangle=\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)^2\,dx$.
+
+\begin{definition}
+An orthornmal basis for $\mathcal{C}([-\pi,\pi])$ with $e_1, e_2, \dots, e_n, \dots$,
+\[\langle e_i, e_j \rangle =
+  \begin{cases}
+    1 & \text{if } i = j\\
+    0 & \text{if } i \neq j
+\end{cases}\]
+\end{definition}
+
+So with functions $\cos{nx}$ and $\sin{nx}$, and $n=1,2,\dots$, we can find the orthornmal basis for $\mathcal{C}([-\pi,\pi])$ as
+\[\langle \cos{nx},\cos{mx}\rangle =
+\begin{cases}
+  1 & \text{if } n = m\\
+  0 & \text{if } n \neq m
+\end{cases}\]
+\[\langle \sin{nx},\sin{mx}\rangle =
+\begin{cases}
+  1 & \text{if } n = m\\
+  0 & \text{if } n \neq m
+\end{cases}\]
+\[\langle \cos{mx},\sin{nx}\rangle = 0\]
+
+Thus, for any $f\in\mathcal{C}([-\pi,\pi])$, we consider the infinite Series
+\[\frac{a_0}{2}+\sum_{n=1}^{\infty}(a_n\cos{nx}+b_n\sin{nx})\] where $a_n=\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\cos{nx}\,dx=\langle f(x), \cos{nx} \rangle$ and $b_n=\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\sin{nx}\,dx=\langle f(x), \sin{nx} \rangle$. This infinite series is called the \textbf{Fourier Series} of $f$.
+
+\begin{example}
+Let $f(x)=
+\begin{cases}
+  1 & \text{if } 0 \leq x \leq \pi\\
+  -1 & \text{if } -\pi \leq x < 0
+\end{cases}$. Find the Fourier expansion of $f$.
+
+Since the Fourier series just results in finding the Fourier coefficients, we just need to find $a_n=\langle f,\cos{nx}\rangle$ and $b_n=\langle f,\sin{nx}\rangle$ where $n\geq0$.
+
+\begin{align*}
+  a_n&=\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\cos{nx}\,dx\\
+  &=\frac{1}{\pi}(\int_0^{\pi}1\cdot\cos{nx}\,dx+\int_{-\pi}^0-1\cdot\cos{nx}\,dx)\\
+  &=\frac{1}{\pi}(\frac{\sin{nx}}{n}\mid_0^{\pi}-\frac{\sin{nx}}{n}\mid_{-\pi}^0)\\
+  &=0
+\end{align*}
+\begin{align*}
+  b_n&=\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\sin{nx}\,dx\\
+  &=\frac{1}{\pi}(\int_0^{\pi}1\cdot\sin{nx}\,dx+\int_{-\pi}^0-1\cdot\sin{nx}\,dx)\\
+  &=\frac{1}{\pi}(-\frac{\cos{nx}}{n}\mid_0^{\pi}+\frac{\cos{nx}}{n}\mid_{-\pi}^0)\\
+  &=
+  \begin{cases}
+    \frac{4}{n\pi} & \text{if } n \text{ is odd}\\
+    0 & \text{if } n \text{ is even}
+  \end{cases}
+\end{align*}
+Taking these coefficients, we find that the Fourier series of $f$ is
+\begin{align*}
+  f(x)&=\frac{0}{2}+\sum_{n=1}^{\infty}(0\cdot\cos{nx}+b_n\sin{nx})\\
+  &=\frac{4}{\pi}\sum_{k=0}^{\infty}\frac{\sin{((2k+1)x)}}{2k+1}.
+\end{align*}
+\end{example}
+
+\section{Lecture 19 -- 12/4}
+\begin{example}
+Find the Fourier series of $f(x)=\sin{x}\cos{x}$.
+
+First, recognize that $2\cdot f(x)=2\sin{x}\cos{x}=\sin{2x}$. Thus, $f(x)=\frac{1}{2}\sin{2x}$. From this, we can see that $a_n=0$ for all $n\geq0$ and $b_n=\frac{1}{2}$ if $n=2$ and $0$ otherwise. Therefore, the Fourier series of $f$ is
+\begin{align*}
+  f(x)&=\frac{0}{2}+\sum_{n=1}^{\infty}(0\cdot\cos{nx}+b_n\sin{nx})\\
+  &=\frac{1}{2}\sin{2x}.
+\end{align*}
+
+\end{example}
+
+\section{Lecture 20 -- 12/9}
+\begin{example}
+Find the Fourier Series of $f(x)=
+\begin{cases}
+  -x & \text{if } -\pi \leq x < 0\\
+  x & \text{if } 0 \leq x \leq \pi
+\end{cases}$.
+
+Since $f(x)=\frac{a_0}{2}+\sum_{n=1}^{\infty}(a_n\cos{nx}+b_n\sin{nx})$, we need to find $a_0,a_n,b_n$.
+
+First, we find $a_n$:
+\begin{align*}
+  a_n&=\frac{2}{\pi}\int_0^{\pi}f(x)\cos{nx}\,dx\\
+  &=\frac{2}{\pi}\int_0^{\pi}x\cos{nx}\,dx\\
+  &=\frac{2}{\pi n^2}\int_0^{\pi}((nx)\cos{nx})\,d(nx)\\
+  &=\frac{2}{\pi n^2}((nx)\sin{nx}\mid_0^{\pi}-\int_0^{\pi}\sin{nx}\,d(nx))\\
+  &=\frac{2}{\pi n^2}(\pi n\sin{n\pi}+\cos{nx}\mid_0^{\pi})\\
+  &=\frac{2}{\pi n^2}(\pi n\cdot0+(-1)^n-1)\\
+  &=\frac{2}{\pi n^2}((-1)^n-1).
+\end{align*}
+Use this to find $a_0$:
+\[
+  \begin{cases}
+    0 & \text{if } n \text{ is even}\\
+    \frac{-4}{\pi n^2} & \text{if } n \text{ is odd}
+\end{cases}\]
+
+Next, we find $b_n$:
+\begin{align*}
+  b_n&=\frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\sin{nx}\,dx\\
+  &=0.
+\end{align*}
+
+Thus, the Fourier series of $f$ is
+\[f(x)=\frac{\pi}{2}-\frac{4}{\pi}\sum_{n=1}^\infty \frac{\cos{(2n-1)x}}{(2n-1)^2}.\]
+\end{example}
+
+\end{document}
