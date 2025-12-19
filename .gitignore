@@ -3,6 +3,7 @@
 *.log
 *.lot
 *.fls
+*.fdb_latexmk
 *.out
 *.toc
 *.fmt
@@ -10,3 +11,4 @@
 *.cb
 *.cb2
 .*.lb
+*.synctex.gz
