@@ -1,0 +1,141 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{verbatim}
+\usepackage{txfonts}
+\usepackage{qtree}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+
+\setlength{\parindent}{0pt}
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Example,]{prosty}
+\declaretheorem[style=prosty,numberlike=theorem]{example}
+\tcolorboxenvironment{example}{colback=LightOrange}
+
+\declaretheoremstyle[name=Definition,]{prcpsty}
+\declaretheorem[style=prcpsty,numberlike=theorem]{definition}
+\tcolorboxenvironment{definition}{colback=LightGreen}
+
+\setstretch{1.2}
+\geometry{
+  textheight=9in,
+  textwidth=5.5in,
+  top=1in,
+  headheight=12pt,
+  headsep=25pt,
+  footskip=30pt
+}
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+\title{ \normalsize \textsc{}
+  \\ [2.0cm]
+  \HRule{1.5pt} \\
+  \LARGE \textbf{\uppercase{CAS MA583 Introduction to Stochastic Processes}
+  \HRule{2.0pt} \\ [0.6cm] \LARGE{Spring 2026} \vspace*{10\baselineskip}}
+}
+\date{}
+\author{\textbf{Frank Yang} \\
+  Professor Salins \\
+MWF 12:20 -- 1:05}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Lecture 1 -- 1/21}
+Stocastic := random, process := anything that evolves through time.\\
+Examples:
+\begin{itemize}
+  \item Gambling
+  \item Stocks
+  \item Biology
+  \item Geology
+  \item Weather
+\end{itemize}
+
+The math used includes calculus (especially infinite sums), linear algebra (solving equations, eigenvalue diffeqs), and probability (know most common distributions including binomial, Poisson, exponential, normal).
+
+\subsection{Chapter 2}
+Conditional probability and conditional expectation.
+\begin{definition}
+  Given two events \(A\) and \(B\) with \(P(B) > 0\), the conditional probability of \(A\) given \(B\) is defined as
+  \[\PP(A|B) = \frac{\PP(A \cap B)}{\PP(B)}.\]
+\end{definition}
+Usually we know the conditional probabilities and use them to solve more difficult questions.
+\begin{example}
+  Roll a six-sided die, and call the result $X$. Next we flip $X$ coins. Let $Y$ be the total number of coins that land on heads. What is the probability of $\PP(Y=4)$?
+
+  We know some probabilities, like $\PP(X=1) = \frac{1}{6}$, and $\PP(X=2) = \frac{1}{6}$. We also know conditional probabilities, like $\PP(Y=1|X=1) = \frac{1}{2}$, and $\PP(Y=0|X=1) = \frac{1}{2}$. $Y$ is conditionally binomial if $n\leq4$: $\PP(Y=n|X=k) = \binom{k}{n} \left(\frac{1}{2}\right)^k$.
+
+  So to answer the question,
+  \begin{align*}
+    \PP(Y=4) &= \PP(Y=4 \text{ and } X=4) + \PP(Y=4 \text{ and } X=5) + \PP(Y=4 \text{ and } X=6) \\
+    &= \PP(Y=4|X=4)\PP(X=4) + \PP(Y=4|X=5)\PP(X=5) + \PP(Y=4|X=6)\PP(X=6) \\
+    &= \binom{4}{4}\left(\frac{1}{2}\right)^4 \cdot \frac{1}{6} + \binom{5}{4}\left(\frac{1}{2}\right)^5 \cdot \frac{1}{6} + \binom{6}{4}\left(\frac{1}{2}\right)^6 \cdot \frac{1}{6}.
+  \end{align*}
+\end{example}
+
+\begin{definition}
+  The above example used what's called the law of total probability.
+  \[\PP(Y=n)=\sum_x \PP(Y=n|X=x)\PP(X=x).\]
+\end{definition}
+
+\begin{example}
+  What is $\E[Y]$ in the above example (or the expected number of heads)? The conditional expectation is clear:
+  \[\E[Y|X=4]=\frac{4}{2}=2\implies \E[Y|X=k]=\frac{k}{2}.\]
+  Thus the law of total expectation gives us
+  \[\E[Y]=\sum_{k=1}^6 \E[Y|X=k]\PP(X=4)=\sum_{k=1}^6 \frac{k}{2} \cdot \frac{1}{6} = \frac{7}{4}.\]
+\end{example}
+
+\begin{example}
+  Based on the casino game craps: roll two standard six-sided dice over and over. If the sum is 7 then I lose. If the sum is 4, then I win. If the sum is anything else then I roll again. What is the probability that I win?
+
+  Well, in one roll of two dice, the probability of a 4 is $\frac{3}{36}$, the probability of a 7 is $\frac{6}{36}$, and the probability of neither is $\frac{27}{36}$.
+
+  Solving directly without conditionaly, the probability of winning is
+  \[\PP = \frac{3}{36} + \frac{27}{36}\frac{3}{36} + \left(\frac{27}{36}\right)^2 \frac{3}{36} + \cdots = \sum_{n=0}^\infty \left(\frac{27}{36}\right)^n \frac{3}{36}.\]
+
+  Using an alternate approach, we could also use the law of total probability. Let $W$ be the event that I win. Then
+  \begin{align*}
+    \PP(W) &= \PP(W|\text{roll 4})\PP(\text{roll 4}) + \PP(W|\text{roll 7})\PP(\text{roll 7}) + \PP(W|\text{roll other})\PP(\text{roll other}) \\
+    &= 1 \cdot \frac{3}{36} + 0 \cdot \frac{6}{36} + \PP(W) \cdot \frac{27}{36}.
+  \end{align*}
+  Solving for $\PP(W)$ gives
+  \[\PP(W) = \frac{3/36}{1 - 27/36} = \frac{1}{9}.\]
+\end{example}
+
+\end{document}
