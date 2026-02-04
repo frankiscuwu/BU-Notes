@@ -138,4 +138,77 @@ Usually we know the conditional probabilities and use them to solve more difficu
   \[\PP(W) = \frac{3/36}{1 - 27/36} = \frac{1}{9}.\]
 \end{example}
 
+\section{Lecture 2 -- 1/23}
+\subsection{Random sums of random variables}
+Setting: $N$ is a variable taking values $\{0, 1, 2, \ldots\}$, and $X_1, X_2, \ldots$ are iid random variables independent of $N$. We study $S=\sum_{i=1}^N X_i=X_1+X_2+\cdots+X_N$.
+\begin{example}
+  Car insurance: $N$ total number of car accidents. $X_i$ is the cost of the $i$-th accident. $S$ is the total cost of all accidents.
+  $\sum_{i=1}^{N}$ is total costs for insurer.
+\end{example}
+
+Mean: $\E(\sum_{i=1}^{n}X_i)=\E(N)\PP(X_i)$.
+Also, by the independence of $X_n$ and $N$ (where independence means conditional probability and nonconditional probabilities match), $\E[\sum_{k=1}^N X_k|N=n]=\E[\sum_{k=1}^{n}X_n]$.
+
+\begin{definition}
+  The \textbf{law of total probability} looks like
+  \begin{align*}
+    \E\left[\sum_{k=1}^{N}X_k\right] &= \sum_{n=0}^{\infty}\E[\sum_{k=1}^{n}X_k | N=n]\PP(N=n) \\
+    &= \sum_{n=0}^{\infty} \E[\sum_{k=1}^{n}X_k] \PP(N=n) \text{because we assumed }X_k\text{ have id. dists.}\\
+    &= \sum_{n=0}^{\infty} n \E[X_i] \PP(N=n) \\
+    &= \E(X_1) \sum_{n=0}^{\infty} n \PP(N=n) \\
+    &= \E(X_1) \E(N).
+  \end{align*}
+\end{definition}
+
+What about the variance($\sum_{i=1}^{N}X_i$)?
+Let's consider two cases:
+\begin{itemize}
+  \item Case 1: $N=n$ is fixed with $n=7$. Then $Var(\sum_{i=1}^{7}X_i)=7 Var(X_i)$ since the $X_i$ are independent.
+  \item Case 2: $N$ is random. Using the law of total variance,
+    \begin{align*}
+      Var(\sum_{i=1}^{N}X_i) &= \E[(\sum_{i=1}^{N}X_i)^2] - (\E[\sum_{i=1}^{N}X_i])^2 = (\E[X_1])^2Var(N)+Var(X_1)\E(N) \\
+      \E[(\sum_{i=1}^{N}X_i)^2] &= \E[N]Var(X_1) + (\E[X_1])^2 \E[N^2] \\
+    \end{align*}
+\end{itemize}
+
+\section{Lecture 3 -- 1/28}
+\subsection{Chapter 3: Markov Chains}
+Abstract setting: Finite number of states, like $\{0, 1, 2, 3, 4\}$ or {rainy, snowy, sunny, sleet} or {cold, medium, hot}. Some system can jump randomly between these states. We can say $X_0$ is the (random) starting point, $X_1$ is the state at time 1, $X_15$ at time 15, etc. We can ask questions like, "What is the probability of going from 0 to state 2 in exactly two steps?"
+
+To answer that question, we could use the law of total probability:
+\[\PP(X_2=2|X_0=0)=\sum_{k}\PP(X_2=2|X_1=k, X_0=0)\PP(X_1=k|X_0=0).\]
+
+We could put it into a matrix:
+\[
+  P = \begin{bmatrix}
+    p_{00} & p_{01} & p_{02} & p_{03} & p_{04} \\
+    p_{10} & p_{11} & p_{12} & p_{13} & p_{14} \\
+    p_{20} & p_{21} & p_{22} & p_{23} & p_{24} \\
+    p_{30} & p_{31} & p_{32} & p_{33} & p_{34} \\
+    p_{40} & p_{41} & p_{42} & p_{43} & p_{44}
+  \end{bmatrix}
+\]
+where rows need to add to 1 and each entry must be $\geq 0$. The law of total probability and matrix multiplication are the same formula!
+
+\begin{example}
+  Flip a fair coin 100 times and write down the result. What is the probability of getting a run of at least 7 heads in a row in 100 flips?
+
+  Build a useful Markov chain: $X_n$ keeps track of number of heads in a row on flip $n$. If $X_n$ is ever 7 then it stays at 7 forever. Then $\PP(\text{at least 7 heads in a row}) = \PP(X_{100}=7|X_0=0)$. The transition matrix is
+  \[P = \begin{bmatrix}
+    0.5 & 0.5 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    0.5 & 0 & 0.5 & 0 & 0 & 0 & 0 & 0 \\
+    0.5 & 0 & 0 & 0.5 & 0 & 0 & 0 & 0 \\
+    0.5 & 0 & 0 & 0 & 0.5 & 0 & 0 & 0 \\
+    0.5 & 0 & 0 & 0 & 0 & 0.5 & 0 & 0 \\
+    0.5 & 0 & 0 & 0 & 0 & 0 & 0.5 & 0 \\
+    0.5 & 0 & 0 & 0 & 0 & 0 & 0 & 0.5 \\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+  \end{bmatrix}.\]
+  Multiplying this 100 times and looking at the first row, last column gives $\PP(X_{100}=7|X_0=0) \approx 0.3175.$
+\end{example}
+
+\section{Lecture 4 -- 1/30}
+
+
+
 \end{document}
