@@ -180,7 +180,8 @@ To answer that question, we could use the law of total probability:
 
 We could put it into a matrix:
 \[
-  P = \begin{bmatrix}
+  P =
+  \begin{bmatrix}
     p_{00} & p_{01} & p_{02} & p_{03} & p_{04} \\
     p_{10} & p_{11} & p_{12} & p_{13} & p_{14} \\
     p_{20} & p_{21} & p_{22} & p_{23} & p_{24} \\
@@ -194,21 +195,29 @@ where rows need to add to 1 and each entry must be $\geq 0$. The law of total pr
   Flip a fair coin 100 times and write down the result. What is the probability of getting a run of at least 7 heads in a row in 100 flips?
 
   Build a useful Markov chain: $X_n$ keeps track of number of heads in a row on flip $n$. If $X_n$ is ever 7 then it stays at 7 forever. Then $\PP(\text{at least 7 heads in a row}) = \PP(X_{100}=7|X_0=0)$. The transition matrix is
-  \[P = \begin{bmatrix}
-    0.5 & 0.5 & 0 & 0 & 0 & 0 & 0 & 0 \\
-    0.5 & 0 & 0.5 & 0 & 0 & 0 & 0 & 0 \\
-    0.5 & 0 & 0 & 0.5 & 0 & 0 & 0 & 0 \\
-    0.5 & 0 & 0 & 0 & 0.5 & 0 & 0 & 0 \\
-    0.5 & 0 & 0 & 0 & 0 & 0.5 & 0 & 0 \\
-    0.5 & 0 & 0 & 0 & 0 & 0 & 0.5 & 0 \\
-    0.5 & 0 & 0 & 0 & 0 & 0 & 0 & 0.5 \\
-    0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+  \[P =
+    \begin{bmatrix}
+      0.5 & 0.5 & 0 & 0 & 0 & 0 & 0 & 0 \\
+      0.5 & 0 & 0.5 & 0 & 0 & 0 & 0 & 0 \\
+      0.5 & 0 & 0 & 0.5 & 0 & 0 & 0 & 0 \\
+      0.5 & 0 & 0 & 0 & 0.5 & 0 & 0 & 0 \\
+      0.5 & 0 & 0 & 0 & 0 & 0.5 & 0 & 0 \\
+      0.5 & 0 & 0 & 0 & 0 & 0 & 0.5 & 0 \\
+      0.5 & 0 & 0 & 0 & 0 & 0 & 0 & 0.5 \\
+      0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
   \end{bmatrix}.\]
   Multiplying this 100 times and looking at the first row, last column gives $\PP(X_{100}=7|X_0=0) \approx 0.3175.$
 \end{example}
 
 \section{Lecture 4 -- 1/30}
 
+\section{Lecture 5 -- 2/2}
 
+\section{Lecture 6 -- 2/4}
+\begin{example}
+  Each game, a gambler has a 49\% chance of winning \$1 or a 51\% chance of losing \$1. He decides to play until he has \$7 or none. What is the probability he loses all of his money?
+
+  Set up a Markov chain with states 0, 1, 2, 3, 4, 5, 6, 7. Draw the matrix, and find $T=min\{n:X_n=0\text{ or }X_n=7\}$. We need to find conditional probabilities $u_k=\PP(u_T=0|u_0=k).$
+\end{example}
 
 \end{document}
