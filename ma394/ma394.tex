@@ -429,7 +429,7 @@ The \textbf{Euler $\phi$-function} is the map $\phi:\N\to\N$ defined by $\phi(1)
 
 \section{Lecture 15 -- 3/3}
 \begin{theorem}
-  Let $U(n)$ be the group of units in $\Z_n$. Then $|U(n)|=\phi(n)$.
+  Let $U(n)$ be the group of units in $\Z_n$ (units are elements with multiplicative inverses, aka coprime to $n$) under multiplication. Then $|U(n)|=\phi(n)$.
 \end{theorem}
 \begin{theorem}
   Euler's theorem: Let $a$ and $n$ be integers such that $n>0$ and $gcd(a,n)=1$. Then $a^{\phi(n)}\equiv 1\mod n$.
@@ -459,7 +459,7 @@ Two groups $(G,\cdot)$ and $(H,\circ)$ are \textbf{isomorphic} if there exists a
 \subsection{9.2 Direct Products}
 If $(G,\cdot)$ and $(H,\circ)$ are groups, then we can make the Cartesian product of $G$ and $H$ into a new group. As a set, our group is just the ordered pairs $(g,h)\in G\times H$. We can define a binary operation on $G\times H$ by $(g_1,h_1)(g_2,h_2)=(g_1\cdot g_2, h_1\circ h_2)$.
 
-\textbf{Proposition:} Let $G$ and $H$ be groups. The set $G\times H$ is a group. The group $G\times H$ is called the external direct product of $G$ and $H$.
+\textbf{Proposition:} Let $G$ and $H$ be groups. The set $G\times H$ is a group. The group $G\times H$ is called the \textbf{external direct product} of $G$ and $H$.
 
 \begin{theorem}
   Let $(g,h)\in G\times H$. If $g$ and $h$ have finite orders $r$ and $s$ respectively, then the order of $(g,h)$ in $G\times H$ is the least common multiple of $r$ and $s$.
@@ -475,15 +475,18 @@ if and only if $gcd(n_i,n_j)=1$ for $i\neq j$.
 \textbf{Corollary:} If $m={p_1}^{e_1}\dots p_k^{e_k}$ where the $p_i$s are distinct primes, then
 \[\Z_m\cong\Z_{p_1^{e_1}}\times\cdots\times\Z_{p_k^{e_k}}.\]
 
-Let $G$ be a group with subgroups $H$ and $K$ satisfying the following conditions:
-\begin{itemize}
-  \item $G=HK=\{hk:h\in H,j\in K\}$,
-  \item $H\cap K=\{e\}$,
-  \item $hk=kh$ for all $h\in H$ and $k\in K$.
-\end{itemize}
-Then $G$ is the \textbf{internal direct product} of $H$ and $K$.
+\begin{definition}
+  Let $G$ be a group with subgroups $H$ and $K$ satisfying the following conditions:
+  \begin{itemize}
+    \item $G=HK=\{hk:h\in H,j\in K\}$,
+    \item $H\cap K=\{e\}$,
+    \item $hk=kh$ for all $h\in H$ and $k\in K$.
+  \end{itemize}
+  Then $G$ is the \textbf{internal direct product} of $H$ and $K$.
+\end{definition}
+
 \begin{theorem}
-  Let $G$ be the intrnal direct product of subgroups $H$ and $K$. Then $G$ is isomorphic to $H\times K$.
+  Let $G$ be the internal direct product of subgroups $H$ and $K$. Then $G$ is isomorphic to $H\times K$.
 \end{theorem}
 \section{Lecture 17 -- 3/17}
 \subsection{10.1 Factor Groups and Normal Subgroups}
@@ -571,7 +574,7 @@ Let $\phi:G_1\to G_2$ be a homomorphism of groups. Then
 
 Let $\phi:G\to H$ be a group homomorphism and suppose that $e$ is the identity of $H$. The subgroup $\phi^{-1}(\{e\})$ is called the \textbf{kernel} of $\phi$ and is denoted by $ker(\phi)$.
 \begin{theorem}
-  Let $\phi:G\to H$ be a grop homomorphism. Then the kernel of $\phi$ is a normal subgroup of $G$.
+  Let $\phi:G\to H$ be a group homomorphism. Then the kernel of $\phi$ is a normal subgroup of $G$.
 \end{theorem}
 \section{Lecture 19 -- 3/19}
 \subsection{11.2 The Isomorphism Theorems}
@@ -609,7 +612,7 @@ Let $H$ be a normal subgroup of $G$. Define the \textbf{natural} or \textbf{cano
 \end{example}
 \section{Lecture 20 -- 3/24}
 \begin{theorem}
-  \textbf{Correspondence THeorem:} Let $N$ be a normal subgroup of a group $G$. Then $H\mapsto H/N$ is a one-to-one correspondence between the set of subgroups $H$ of $G$ containing $N$ and the set of subgroups of $G/N$. Furthermore, the normal subgroups of $G$ containing $N$ correspond to normal subgroups of $G/N$.
+  \textbf{Correspondence Theorem:} Let $N$ be a normal subgroup of a group $G$. Then $H\mapsto H/N$ is a one-to-one correspondence between the set of subgroups $H$ of $G$ containing $N$ and the set of subgroups of $G/N$. Furthermore, the normal subgroups of $G$ containing $N$ correspond to normal subgroups of $G/N$.
 \end{theorem}
 \begin{theorem}
   \textbf{Third Isomorphism Theorem:} Let $G$ be a group and $N$ and $H$ be normal subgroups of $G$ with $N\subset H$. Then $G/H\cong\frac{G/N}{H/N}.$
@@ -627,5 +630,185 @@ Let $H$ be a normal subgroup of $G$. Define the \textbf{natural} or \textbf{cano
 
   $\frac{G/N}{H/N}=\frac{\Z/24\Z}{4\Z/24\Z}\cong\Z_4$.
 \end{example}
+\section{Lecture 21 -- 3/25}
+\subsection{13.1 Finite Abelian Groups}
+\begin{itemize}
+  \item Suppose that $G$ is a group and let $\{g_i\}$ be a set of elements in $G$, where $i$ is in some index set $I$ (not necessarily finite). The smallest subgroup of containing all of the $g_i$'s is the subgroup of $G$ \textbf{generated} by the $g_i$'s.
+  \item If this subgroup of $G$ is in fact all of $G$, then $G$ is \textbf{generated} by the set $\{g_i:i\in I\}$. In this case the $g_i$'s are called \textbf{generators} of $G$.
+  \item If there is a finite set $\{g_i:i\in I\}$ that generates $G$, then $G$ is \textbf{finitely generated}.
+  \item Define a group $G$ to be a $p$-group if every element in $G$ has as its order a power of $p$, where $p$ is a prime number.
+\end{itemize}
+\begin{theorem}
+  \textbf{Fundamental Theorem of Finite Abelian Groups:} Every finite abelian group $G$ is isomorphic to a direct product of cyclic groups of the form \[\Z_{p_1^{\alpha_1}}\times\Z_{p_2^{\alpha_2}}\times\cdots\times\Z_{p_n^{\alpha_n}}\]where the $p_i$'s are primes (not necessarily distinct).
+\end{theorem}
+\begin{theorem}
+  \textbf{Fundamental Theorem of Finitely Generated Abelian Groups:} Every finitely generated abelian group is isomorphic to a direct product of cyclic groups of the form \[\Z_{p_1^{\alpha_1}}\times\Z_{p_2^{\alpha_2}}\times\cdots\times\Z_{p_n^{\alpha_n}}\times\Z\cdots\times\Z\] where the $p_i$'s are primes (not necessarily distinct).
+\end{theorem}
+
+Many of the sets we have explored have 2 operations: addition and multiplication. For example, $\Z,\Q,\R,\C,\Z_n,M_2(\R)=\{2\times2\text{ matrices in }\R\}$, etc. Under addition, all of these sets are abelian, and most are groups. Under multiplication, most of these sets are not groups.
+
+\subsection{16.1 Rings}
+A nonempty set $R$ is a ring if it has two closed binary operations, addition and multiplication, satisfying the following conditions:
+\begin{itemize}
+  \item $a+b=b+a$ for $a,b\in R$.
+  \item $a+(b+c)=(a+b)+c$ for $a,b,c\in R$.
+  \item There is an element $0\in R$ such that $a+0=0+a$ for all $a\in R$.
+  \item For every element $a\in R$, there is an element $-a\in R$ such that $a+(-a)=0$.
+  \item $(ab)c=a(bc)$ for all $a,b,c\in R$.
+  \item $a(b+c)=ab+ac$ and $(a+b)c=ac+bc$ for $a,b,c\in R$.
+\end{itemize}
+
+If there is an element $1\in R$ such that $1\neq0$ and $1a=a1=a$ for each element $a\in R$, we say that $R$ is a ring with \textbf{unity} or \textbf{identity}.
+
+A ring $R$ for which $ab=ba$ for all $a,b\in R$ is called a \textbf{commutative ring}.
+
+A commutative ring with identity is called an \textbf{integral domain} if, for ever $a,b\in R$ such that $ab=0$, either $a=0$ or $b=0$.
+
+A \textbf{division ring} is a ring $R$, with an identity, in which every nonzero element is a unit; that is, for each $a\in R$ with $a\neq0$, there exists a unique element $a^{-1}\in R$ such that $aa^{-1}=a^{-1}a=1$.
+
+A commutative division ring is called a \textbf{field}.
+
+\section{Lecture 22 -- 3/31}
+\subsection{16.2 Integral Domains and Fields}
+\textbf{Cancellation Law:} Let $D$ be a commutative ring with identity. Then $D$ is an integral domain if and only if for all nonzero elements $a\in D$ with $ab=ac$, we have $b=c$.
+\begin{theorem}
+  Every finite integral domain is a field.
+
+  Let $D=\{0,1,a_1,a_2,\cdots,a_n\}$ be a finite
+\end{theorem}
+
+For any nonnegative integer $n$ and any element $r$ in a ring $R$ we write $r+r+\cdots+r$ ($n$ times) as $nr$. We define the \textbf{characteristic} of a ring $R$ to be the least positive integer $n$ such that $nr=0$ for all $r\in R$. If no such integer exists, then the characteristic of $R$ is defined to be $0$. We will denote the characteristic of $R$ by $char(R)$.
+
+\textbf{Lemma:} Let $R$ be a ring with identity. If 1 has order $n$, then the characteristic of $R$ is $n$.
+\begin{theorem}
+  The characteristic of an integral domain is either prime or zero.
+\end{theorem}
+
+Every ring is an abelian group under addition.
+
+If $R$ is a finite ring, then we know the structure under addition, but there may be several types of multiplication.
+
+\subsection{16.3 Ring Homomorphisms and Ideals}
+An \textbf{ideal} in a ring $R$ is a subring $I$ of $R$ such that if $a$ is in $I$ and $r$ is in $R$, then both $ar$ and $ra$ are in $I$; that is $rI\subset I$ and $Ir\subset I$ for all $r\in R$.
+
+If $R$ and $S$ are rings, then a \textbf{ring homomorphism} is a map $\phi:R\to S$ satisfying \[\phi(a+b)=\phi(a)+\phi(b)\]\[\phi(ab)=\phi(a)\phi(b)\] for all $a,b\in R$.
+
+If $\phi$ is a one-to-one and onto homomorphism, then $\phi$ is called an \textbf{isomorphism} of rings.
+
+\section{Lecture 23 -- 4/1}
+\begin{theorem}
+  \textbf{First Isomorphism Theorem for Rings:} Let $\psi:R\to S$ be a ring homomorphism. Then $ker\psi$ is an ideal of $R$. If $\phi:R\to R/ker\psi$ is the canonical homomorphism, then there exists a unique isomorphism $\eta:R/ker\psi\to im\psi$ such that $\psi=\eta\phi$.
+\end{theorem}
+\section{Lecture 24 -- 4/2}
+\begin{theorem}
+  \textbf{Second Isomorphism Theorem for Rings:} Let $I$ be a subring of a ring $R$ and let $J$ be an ideal of $R$. Then $I\cap J$ is an ideal of $I$ and $I/I\cap J\cong (I+J)/J$.
+\end{theorem}
+\begin{theorem}
+  \textbf{Third Isomorphism Theorem for Rings:} Let $R$ be a ring and  $I$ and $J$ be ideals of $R$ where $J\subset I$. Then $R/J\cong\frac{R/J}{I/J}$.
+\end{theorem}
+\begin{theorem}
+  \textbf{Correspondence Theorem for Rings:} Let $I$ be an idea of a ring $R$. Then $S\mapsto S/I$ is a one-to-one correspondence between the set of subrings $S$ containing $I$ and the set of subrings of $R/I$. Futhermore, the ideals of $R$ containing $I$ correspond to ideals of $R/I.$
+\end{theorem}
+A proper ideal $M$ of a ring $R$ is a \textbf{maximal ideal} of $R$ if the ideal $M$ is not a proper subset of any ideal of $R$ except $R$ itself. That is, $M$ is a maximal ideal if for any ideal $I$ properly containing $M$, $I = R$.
+\begin{theorem}
+  Let $R$ be a commutative ring with identity and $M$ an ideal in $R$. Then $M$ is a maximal ideal of $R$ is and only if $R/M$ is a field.
+\end{theorem}
+\subsection{17.1 Polynomial Rings}
+\begin{definition}
+  Throughout this chapter, $R$ denotes a dommutative ring with identity.
+  \begin{itemize}
+    \item An expression of the form \[f(x)=\sum_{i=1}^n a_ix^i=a_0+a_1x+a_2x^2+\cdots+a_nx^n\] where $a_i\in R$ and $a_n\neq0$, is called a \textbf{polynomial over $R$} with \textbf{indeterminate $x$}.
+    \item The elements $a_0, a_1,\cdots,a_n$ are called the \textbf{coefficients} of $f$, and $a_n$ is called the \textbf{leading coefficient}.
+    \item A polynomial is \textbf{monic} if its leading coefficient is 1.
+    \item If $n$ is the largest nonnegative integer such that $a_n\neq0$, we say the \textbf{degree} of $f$ is $n$ and write $deg\;f(x)=n$.
+    \item If no such $n$ exists (i.e, $f=0$ is the zero polynomial), the degree of $f$ is defined to be $-\infty$.
+    \item The set of all polynomials with coefficients in $R$ is denoted $R[x]$.
+    \item Two polynomials $p(x)=a_0+a_1x+\cdots+a_nx^n$ and $q(x)=b_0+b_1x+\cdots+b_mx^m$ are \textbf{equal} if $a_i=b_i$ for all $i\geq0$.
+  \end{itemize}
+\end{definition}
+
+Let $p(x)=a_0+a_1x+\cdots+a_nx^n$ and $q(x)=b_0+b_1x+\cdots+b_mx^m$ be polynomials in $R[x]$. We define the sum of $p$ and $q$ to be the polynomial \[p(x)+q(x)=(a_0+b_0)+(a_1+b_1)x+\cdots+(a_k+b_k)x^k\] where $k=max(n,m)$ and we let $a_i=0$ for $i>n$ and $b_j=0$ for $j>m$. We define the product of $p$ and $q$ to be the polynomial \[p(x)q(x)=\sum_{i=0}^{n+m}c_ix^i\] where $c_i=\sum_{j=0}^ia_jb_{i-j}$.
+
+\begin{theorem}
+  Let $R$ be a commutative ring with identity. Then $R[x]$ is a commutative ring with identity.
+\end{theorem}
+\begin{theorem}
+  Let $p(x)$ and $q(x)$ be polynomials in $R[x]$, where $R$ is an integral domian. Then \[deg(p(x)q(x))=deg\;p(x)+deg\;q(x).\] Furthermore, $R[x]$ is an integral domain.
+\end{theorem}
+
+\section{Lecture 25 -- 4/7}
+\subsection{17.2 The Division Algorithm}
+\begin{theorem}
+  Let $f(x)$ and $g(x)$ be poliynomials in $F[x]$, where $F$ is a field and $g(x)$ is a nonzero polynomial. Then there exist unique polynomials $q(x),r(x)\in F[x]$ such that $f(x)=g(x)q(x)+r(x)$, where either $deg\;r(x)<deg\;g(x)$ or $r(x)=0$.
+\end{theorem}
+
+\textbf{Zero/Root of a Polynomial:} Let $p(x)\in F[x]$, where $F$ is a field, and let $\phi_a:$
+
+\begin{theorem}
+  \textbf{Factor Theorem:} Let $F$ be a field. An element $\alpha\in F$ is a zero of $p(x)\in F[x]$ if and only if $(x-\alpha)$ is a factor of $p(x)$ in $F[x]$.
+\end{theorem}
+
+\begin{theorem}
+  \textbf{Bound on Number of Zeros:} Let $F$ be a field. A non-zero polynomial $p(x)$ of degree $n$ in $F[x]$ has at most $n$ distinct zeros in $F$.
+\end{theorem}
+
+\textbf{Greatest Common Divisor of Polynomials:} Let $F$ be a field. A monic polynomial $d(x)\in F[x]$ is a \textbf{greatest common divisor} of $p(x),q(x)\in F[x]$ if $d(x)$ evenly divides both $p(x)$ and $q(x)$, and if for any other polynomial $d'(x)$ dividing both $p(x)$ and $q(x)$, we have $d'(x)|d(x)$.
+We write $d(x)=gcd(p(x),q(x))$. Two polynomials $p(x)$ and $q(x)$ are \textbf{relatively prime} if $gcd(p(x),q(x))=1$.
+
+\begin{theorem}
+  \textbf{Existence and Uniqueness of the GCD: }Let $F$ be a field and supppose $d(x)$ is a greatest common divisor of $p(x)$ and $q(x)$ in $F[x]$. Then there exist polynomials $r(x)$ and $s(x)$ such that $d(x)=r(x)p(x)+s(x)q(x)$. Furthermore, the greatest common divisor or two polynomials is unique.
+\end{theorem}
+
+\subsection{17.3 Irreducible Polynomials}
+A nonconstant polynomial $f(x)\in F[x]$ is \textbf{irreducible over a field} $F$ if $f(x)$ cannot be expressed as a product $g(x)h(x)$ where $g(x), h(x)\in F[x]$ and the degrees of $g(x)$ and $h(x)$ are both strictly less than $deg\;f(x)$. Irreducible polynomials function as the "prime numbers" of polynomial rings.
+
+\begin{theorem}
+  \textbf{Rational Coefficient Decomposition: }Let $p(x)\in\Q[x]$. Then \[p(x)=\frac{r}{s}(a_0+a_1x+\cdots+a_nx^n)\] where $r,s,a_9,\dots,a_n$ are integerts, the $a_i$'s are relative prime, and $gcd(r,s)=1$.
+\end{theorem}
+
+\begin{theorem}
+  \textbf{Gauss's Lemma: }Let $p(x)\in\Z[x]$ be a monic polynomial such that $p(x)$ factors into a product of two polynomials $\alpha(x)$ and $\beta(x)$ in $\Q[x]$, where the degrees of both $\alpha(x)$ and $\beta(x)$ are less than the degree of $p(x)$. Then $p(x)=a(x)b(x)$ where $a(x)$ and $b(x)$ are monic polynomials in $\Z[x]$ with $deg\;\alpha(x)=deg\;a(x)$ and $deg\;\beta(x)=deg\;b(x)$.
+\end{theorem}
+\section{Lecture 26 -- 4/8}
+A proper ideal $P$ in a commutative ring $R$ is called a \textbf{prime ideal} if whenever $ab\in P$, then either $a\in P$ or $b\in P$.
+
+Let $R$ be a commutative ring with identity 1, where $1\neq0$. Then $P$ is a prime ideal in $R$ if and only if $R/P$ is an integral domain.
+
+\textbf{Principal Ideal in $F[x]$:} Let $F$ be a field. Recall that a \textbf{principal ideal} in $F[x]$ is an ideal $\langle p(x)\rangle$ generated by some polynomial $p(x)$; that is, $\langle p(x)\rangle=\{p(x)q(x):q(x)\in F[x]\}$.
+
+\begin{theorem}
+  \textbf{Every Ideal in $F[x]$ is Principal:} If $F$ is a field, then every ideal in $F[x]$ is a principal ideal.
+\end{theorem}
+\begin{theorem}
+  \textbf{Maximal Ideals and Irreducible Polynomials:} Let $F$ be a field and $p(x)\in F[x]$. Then $\langle p(x)\rangle$ is a maximal ideal of $F[x]$ if and only if $p(x)$ is irreducible over $F$.
+\end{theorem}
+\begin{theorem}
+  \textbf{Integer Zeros of Monic Integer Polynomials:} Let $p(x)=x^n+a_{n-1}x^{n-1}+\cdots+a_0\in\Z[x]$ with $a_0\neq0$. If $p(x)$ has a zero in $\Q$, then it also has a zero $\alpha\in\Z$, and moreover $\alpha|a_0$.
+\end{theorem}
+
+\begin{theorem}
+  \textbf{Eisenstein's Criterion:} Let $p$ be a prime and suppose $f(x)=a_nx^n+\cdots+a_0\in\Z[x]$. If $p|a_i$ for $i=0,1,\dots,n-1$, but $p\nmid a_n$ and $p^2\nmid a_0$, then $f(x)$ is irreducible over $\Q$.
+\end{theorem}
+\section{Lecture 27 -- 4/9}
+\subsection{18.1 Fields of Fractions}
+\textbf{Ordered-pair set and equivalence relation:} Let $D$ be an integral domain. Define \[S=\{(a,b):a,b\in D,b\neq0\}\] Declare a relation $\sim$ on $S$ by \[(a,b)\sim(c,d)\iff ad=bc.\]
+
+\textbf{Lemma:}  The relation $\sim$ on $S$ is an equivalence relation.
+
+\begin{example}
+  \textbf{Verifying the equivalence relation in $\Z$:} Work in $D=\Z$. Check that $(2,4)\sim(3,6)$ and $(3,6)\sim(5,10)$, and hence $(2,4)\sim(5,10)$. All three pairs represent $\frac{1}{2}$.
+\end{example}
+
+\textbf{Operations on equivalence classes:} Let $D$ be an integral domian. Denote the equivalence class of $(a,b)\in S$ under $\sim$ by $[a,b]$, and let $F_D$ be the set of all such equivalence classes. Define addition and multiplication on $F_D$ by \[[a,b]+[c,d]=[ad+bc,bd],\;[a,b]\cdot[c,d]=[ac,bd].\]
+
+\textbf{Lemma:} The set $F_D$, together with the operations of addition and multiplication defined above, is a field.
+
+\begin{theorem}
+  Let $D$ be an integral domain. Then $D$ can be embedded in a field of fractions $F_D$, where every element of $F_D$ can be expressed as the quotient of two elements of $D$. Furthermore, $F_D$ is unique in the sense that if $E$ is any field containing $D$, then there exists an injective ring homomorphism $\psi:F_D\to E$ satistfying $\psi(a)=a$ for all $a\in D$.
+\end{theorem}
+
+\textbf{Corollary:} Let $F$ be a field of characteristic zero. Then $F$ contains a subfield isomorphic to $\Q$.
+
+\textbf{Corollary:} Let $F$ be a field of characteristic $p$ (prime). Then $F$ contains a subfield isomorphic to $\Z_p$. 
 
 \end{document}
