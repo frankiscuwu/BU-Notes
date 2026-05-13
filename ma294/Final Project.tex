@@ -1,0 +1,127 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{verbatim}
+\usepackage{txfonts}
+\usepackage{qtree}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+
+\setlength{\parindent}{0pt}
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Theorem,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{theorem}
+\tcolorboxenvironment{theorem}{colback=LightGray}
+
+\declaretheoremstyle[name=Example,]{prosty}
+\declaretheorem[style=prosty,numberlike=theorem]{example}
+\tcolorboxenvironment{example}{colback=LightOrange}
+
+\declaretheoremstyle[name=Definition,]{prcpsty}
+\declaretheorem[style=prcpsty,numberlike=theorem]{definition}
+\tcolorboxenvironment{definition}{colback=LightGreen}
+
+\setstretch{1.2}
+\geometry{
+  textheight=9in,
+  textwidth=5.5in,
+  top=1in,
+  headheight=12pt,
+  headsep=25pt,
+  footskip=30pt
+}
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+\title{ \normalsize \textsc{}
+  \\ [2.0cm]
+  \HRule{1.5pt} \\
+  \LARGE \textbf{\uppercase{CAS MA394 Applied Abstract Algebra}
+    \\
+    \textbf{Final Project}
+  \HRule{1.5 pt} \\ [0.6cm] \LARGE{Public Key Cryptography} \vspace*{10\baselineskip}}
+}
+\date{}
+\author{\textbf{Frank Yang} \\
+  Professor Tom Enkosky \\
+TTh 2:00 -- 3:15}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Public Key Cryptography Introduction}
+Sending secret messages has always been a part of humanity, dating as far back as Julius Caesar with his now-infamous Caesar cipher, where the letters in a message are shifted forward in the alphabet by a certain amount n (mod 26) for the 26 letters of the alphabet. The Caesar cipher is an example of private key cryptography, where both the sender and the receiver need to know n. The problem with rudimentary encryptions like the Caesar cipher is that it’s often really easy to crack by an uninvolved party if they were to receive the message (whether with or without the key), and since the receiver has to know the encryption method, the key could also be intercepted, decrypting every message after.
+
+These problems sparked the invention of the RSA cryptosystem, invented by R. Rivest, A. Shamir, and L. Adleman in 1978 once digital technology became more integral to daily life, and sending encrypted messages became pivotal. RSA sought to directly address those aforementioned problems, and their success in doing so led to RSA still being used today. The entire process of securely sharing keys is eliminated with the RSA and other similar public key cryptography systems.
+
+With public key cryptosystems, the encryption and decryption procedures don’t need to utilize the same key – thus eliminating the requirement that the encoding key (like the n from the Caesar cipher) be shared. Instead, the process that encodes the message has to be easy to compute, and the inverse decoding has to be extremely difficult. For example, when Alice wants to send a secret message to Bob using public key cryptography, all Alice’s machine has to do is look up Bob’s public key, encode the message with that key, and send that encrypted message to Bob. Then Bob uses his own private key to decrypt that message. So even though all recipients have their public keys shared to encrypt any message delivered to them, only they can decrypt it.
+RSA does this specifically using a very specific formula, exemplified in Section 2.
+
+\section{The RSA Cryptosystem}
+
+Let's say Alice wants to send a secret message to Bob. The RSA cryptosystem works as follows:
+
+\subsection{Bob's Key Generation}
+Bob's computer generates two large prime numbers, $p$ and $q$. To keep it simple, we'll use numbers $p=23$ and $q=29$ (although in practice, these would be much larger). Bob's computer then computes the product of those numbers, $n = p \cdot q = 23 \cdot 29 = 667$. Next, he calculates another number $m = \phi(n) = (p-1)(q-1) = 22 \cdot 28 = 616$, where $\phi(n)$ is Euler's $\phi$-function. Finally, a random integer $E$ is chosen such that $1 < E < m$ and $E$ is relatively prime to $m$, or $gcd(E, m) = 1$. For this example, let's choose $E = 487$, which is relatively prime to $E$ and $m$. Bob's public key is then the pair $(n, E) = (667, 487)$. These are the publicly posted numbers that Alice will use to encrypt her message.
+
+\subsection{Alice's Encrypted Message to Bob}
+First, Alice's message gets turned into a number. There are multiple ways to encode a message, like ASCII values – but for simplicity, we'll just say the message has been encoded into the number $m = 25$.
+
+Alice's computer then uses Bob's public key to encrypt $m$ to get an encrypted message $c$ using the formula: $c = m^E \mod n$. In our example, this would be $c = 25^{487} \mod 667 = 169$.
+
+\subsection{Bob's Decryption of Alice's Message}
+Bob's computer receives the encrypted message $c = 169$ and uses his private key to decrypt it. To do this, Bob needs to compute $D$ indentified in the formula $DE\equiv 1 \mod m$. To actually find $D$, we can use the Extended Euclidean Algorithm which computes the greatest common divisor between two numbers. In this case, we find $D=191$, since $DE = 191 \cdot 487 \equiv 1 \mod 616$. This mean's Bob's private key used to decrypt the messages encrypted from his public key is $(n, D) = (667, 191)$.
+
+Finally, Bob's machine uses this decryption key to compute the original message $m$ using the formula: $m = c^D \mod n$. In our example, this would be $m = 169^{191} \mod 667 = 25$, which is the original message Alice sent.
+
+\section{Example Problem \S 7.4.12}
+\textbf{Find integers $n, E,$ and $X$ such that $X^E\equiv X \mod n$. Is this a potential problem in the RSA cryptosystem?}
+
+We know that $E$ has to be relatively prime to $\phi(n)$, and $n$ has to be a product of two primes. We can try simple prime numbers to find a solution. Let's try $n = 6$, which is the product of the primes $2$ and $3$. Then $\phi(n) = (2-1)(3-1) = 1 \cdot 2 = 2$. We can choose $E = 3$, which is relatively prime to $2$, since $gcd(3, 2) = 1$. Now we need to find an integer $X$ such that $X^3 \equiv X \mod 15$.
+
+We can test integers from $0$ to $5$ (since we are working mod $6$):
+\begin{itemize}
+  \item $[0]$: $0^3 \equiv 0 \mod 6$ (True)
+  \item $[1]$: $1^3 \equiv 1 \mod 6$ (True)
+  \item $[2]$: $2^3 \equiv 8 \equiv 2 \mod 6$ (True)
+  \item $[3]$: $3^3 \equiv 27 \equiv 3 \mod 6$ (True)
+  \item $[4]$: $4^3 \equiv 64 \equiv 4 \mod 6$ (True)
+  \item $[5]$: $5^3 \equiv 125 \equiv 5 \mod 6$ (True)
+\end{itemize}
+
+Thus, we have found that for $n = 6$, $E = 3$, and any integer $X$ from $0$ to $5$, the equation $X^E \equiv X \mod n$ holds true.
+
+This is a potential problem in the RSA cryptosystem because it means that if an attacker can find such integers $n, E,$ and $X$, they could potentially decrypt messages without needing the private key. This is because the encryption and decryption processes would yield the same result for certain values of $X$, making it easier for an attacker to guess the original message. Therefore, it is crucial to choose $n$ and $E$ carefully to avoid such vulnerabilities in the RSA cryptosystem. That's why in practice, much larger prime numbers are used to ensure the security of the RSA cryptosystem, as opposed to the small numbers used here.
+
+\end{document}
